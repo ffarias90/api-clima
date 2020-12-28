@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pronóstico del Clima</title>
+
+    <!--estilos-->
+    <!--Materialize-->
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!--js-->
+    <!--jquery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
+    <!-- Materialize Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--estilos propios-->
+    <style>
+        body {
+            background-color: #171B22;
+            color: antiquewhite;
+            background-image: url(img/fondo1.jpg);
+            background-repeat: no-repeat;
+            background-position: cover;
+            background-size: cover;
+        }
+        
+        form {
+            margin-top: 15px;
+        }
+        
+        #logo {
+            width: 60px;
+            margin-right: 40px;
+            padding: 5px;
+        }
+    </style>
+    <!--fin estilos-->
+
+
+</head>
+
+<body>
+
+    <!--navbar-->
+    <nav>
+        <div class="nav-wrapper teal lighten-2 mb-5">
+            <a href="#" class="brand-logo right"><img id="logo" src="img/logo1.png" alt=""></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>
+                    <a href="sass.html"></a>
+                </li>
+                <li>
+                    <a href="badges.html"></a>
+                </li>
+                <li>
+                    <a href="collapsible.html"></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--navbar-->
+
+    <!--formulario-->
+    <div class="container">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <textarea id="textarea1" class="materialize-textarea white-text text-darken-2"></textarea>
+                    <label for="textarea1">Ciudad</label>
+                </div>
+                <div class="file-field input-field col s6">
+                    <button class="btn waves-effect waves-light btn-small" type="submit" name="action">Enviar
+                        </button>
+                </div>
+            </div>
+            <!--formulario-->
+        </form>
+
+        <!--informacion-->
+        <div id="info" class="row">
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th>Clima</th>
+                        <th>Temperatura</th>
+                        <th>Coordenadas</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td id="clima"></td>
+                        <td id="temperatura"></td>
+                        <td id="coordenadas"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--informacion-->
+
+    </div>
+
+    <!--js propio-->
+    <script>
+        $(document).ready(function() {
+            $('form').submit(function() {
+                var ciudad = $("#textarea1").val();
+                var apikey = '09130632bb4d41576b6ca778d9191a40';
+                $.get("http://api.openweathermap.org/data/2.5/weather?q=" + ciudad + "&appid=" + apikey + "&units=metric", function(res) {
+
+                    $('#clima').html(
+                        "<p>" + res.weather[0].description + "<p>"
+                    );
+
+                    $('#temperatura').html(
+                        "<p>" + res.main.temp + ' C' + "<p>"
+                    );
+
+                    $('#coordenadas').html(
+                        "<p>" + res.coord.lon + "<p>" +
+                        "<p>" + res.coord.lat + "<p>"
+                    );
+
+                }, 'json');
+                return false;
+            });
+        });
+    </script>
+    <!--fin js propio-->
+
+</body>
+
+</html>
